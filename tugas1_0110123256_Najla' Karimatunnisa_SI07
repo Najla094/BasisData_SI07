@@ -1,0 +1,786 @@
+Tugas 1 Basis Data 
+
+Nama	: Najla' Karimatunnisa 
+NIM	: 0110123256
+Rombel	: SI 07
+
+Jawaban no. 1 Membuat database baru dengan nama: dbpegawai
+MariaDB [(none)]> CREATE DATABASE dbpegawai;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbpegawai          |
+| dbpos              |
+| dbsi07             |
+| dbtesting          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+9 rows in set (0.001 sec)
+
+Jawaban no.2 Masuk ke dbpegawai dengan perintah USE
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+MariaDB [dbpegawai]> SHOW TABLES;
+Empty set (0.001 sec)
+
+Jawaban no. 3 Membuat table baru dengan nama: divisi, dengan kolom : id int primary key auto_increment, nama varchar(30) dengan contraint: wajib diisi dan tidak boleh sama
+MariaDB [dbpegawai]> CREATE TABLE divisi(
+    -> id int primary key auto_increment,
+    -> nama varchar(30) not null unique);
+Query OK, 0 rows affected (0.052 sec)
+
+Jawaban no. 4 Menampilkan deskripsi tabel divisi
+MariaDB [dbpegawai]> DESC divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.022 sec)
+
+Jawaban no. 5 Membuat tabel beru dengan nama Jabatan, dengan kolom: id int primary key auto_increment, nama varchar(30) dengan contraint: wajib diisi dan tidak boleh sama
+MariaDB [dbpegawai]> CREATE TABLE jabatan(
+    -> id int primary key auto_increment,
+    -> nama varchar(30) not null unique);
+Query OK, 0 rows affected (0.032 sec)
+
+Jawaban no. 6 Menampilkan deskripsi tabel jabatan 
+MariaDB [dbpegawai]> DESC jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.020 sec)
+
+Jawaban no. 7 Membuat tabel baru dengan nama: Pegawai
+MariaDB [dbpegawai]> CREATE TABLE pegawai(
+    -> id int primary key auto_increment,
+    -> nip char(5) not null unique,
+    -> nama varchar(30) not null,
+    -> gender enum('Laki-Laki','Perempuan') not null,
+    -> tmp_lahir varchar(30) not null,
+    -> tgl_lahir date not null,
+    -> iddivisi int not null references divisi(id),
+    -> idjabatan int not null references jabatan(id),
+    -> alamat text);
+Query OK, 0 rows affected (0.047 sec)
+
+Jawaban no. 8 Menampilkan deskripsi tabel pegawai
+MariaDB [dbpegawai]> DESC pegawai;
++-----------+-------------------------------+------+-----+---------+----------------+
+| Field     | Type                          | Null | Key | Default | Extra          |
++-----------+-------------------------------+------+-----+---------+----------------+
+| id        | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip       | char(5)                       | NO   | UNI | NULL    |                |
+| nama      | varchar(30)                   | NO   |     | NULL    |                |
+| gender    | enum('Laki-Laki','Perempuan') | NO   |     | NULL    |                |
+| tmp_lahir | varchar(30)                   | NO   |     | NULL    |                |
+| tgl_lahir | date                          | NO   |     | NULL    |                |
+| iddivisi  | int(11)                       | NO   |     | NULL    |                |
+| idjabatan | int(11)                       | NO   |     | NULL    |                |
+| alamat    | text                          | YES  |     | NULL    |                |
++-----------+-------------------------------+------+-----+---------+----------------+
+9 rows in set (0.015 sec)
+
+Jawab no. 9 Menampilkan tabel-tabel yang ada di dbpegawai
+MariaDB [dbpegawai]> SHOW TABLES;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| jabatan             |
+| pegawai             |
++---------------------+
+3 rows in set (0.001 sec)
+
+Jawaban no. 10 Input data divisi: SDM, Keuangan, Marketing, IT
+MariaDB [dbpegawai]> INSERT INTO divisi (nama) VALUES
+    -> ('SDM'),
+    -> ('Keuangan'),
+    -> ('Marketing'),
+    -> ('IT');
+Query OK, 4 rows affected (0.003 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+Jawaban no. 11 Menampilkan seluruh data divisi
+MariaDB [dbpegawai]> SELECT * FROM divisi;
++----+-----------+
+| id | nama      |
++----+-----------+
+|  4 | IT        |
+|  2 | Keuangan  |
+|  3 | Marketing |
+|  1 | SDM       |
++----+-----------+
+4 rows in set (0.000 sec)
+
+Jawaban no. 12 Input data jabatan: Direktur, Manajer, Asisten Manajer, Staff
+MariaDB [dbpegawai]> INSERT INTO jabatan (nama) VALUES
+    -> ('Direktur'),
+    -> ('Manajer'),
+    -> ('Asisten Manajer'),
+    -> ('Staff');
+Query OK, 4 rows affected (0.003 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+Jawaban no. 13 Menampilkan seluruh data jabatan 
+MariaDB [dbpegawai]> SELECT * FROM jabatan;
++----+-----------------+
+| id | nama            |
++----+-----------------+
+|  3 | Asisten Manajer |
+|  1 | Direktur        |
+|  2 | Manajer         |
+|  4 | Staff           |
++----+-----------------+
+4 rows in set (0.000 sec)
+
+Jawaban no. 14 Input 20 orang pegawai ( 1 divisi 5 orang, untuk gender dan jabatan diacak)
+MariaDB [dbpegawai]> INSERT INTO pegawai (nip,nama,gender,tmp_lahir,tgl_lahir,iddivisi,idjabatan,alamat) VALUES
+    -> (02693,'Alvita Lestari','Perempuan','Jakarta','1997-05-15',3,4,'Jl Revolusi Kel Sukamaju Kec Cilodong Kota Depok'),
+    -> (07698,'Muhammad Zayn','Laki-Laki','Bandung','1997-12-01',3,2,'Jl Danau Raya Jakarta Selatan'),
+    -> (01459,'Muhammad Jihad','Laki-Laki','Bogor','2000-09-12',3,1,'Jl Margonda Raya Kota Depok'),
+    -> (03289,'Sinta Marsya','Perempuan','Jakarta','1999-02-20',3,3,'Vila Pertiwi Kota Depok'),
+    -> (00245,'Raisya Sungkar','Perempuan','Depok','1997-05-06',3,4,'Jl Akses UI Kota Depok'),
+    -> (09476,'Akbar Khan','Laki-Laki','Jakarta','2000-10-10',4,2,'Jl Tegar Beriman Bogor'),
+    -> (08645,'Rafi Sanjaya','Laki-Laki','Jakarta','1998-04-20',4,4,'Jl Mangga Kota Depok'),
+    -> (02187,'Larisa Ayu','Perempuan','Surabaya','1999-01-12',4,1,'Jl Kemang Raya Jakarta Selatan'),
+    -> (02286,'Abidzar Alghifari','Laki-Laki','Jakarta','1999-04-10',4,2,'Pondok Indah Jakarta Selatan'),
+    -> (00756,'Muhammad Iqbaal','Laki-Laki','Bandung','1998-03-09',4,3,'Jl Medan Merdeka Jakarta Pusat'),
+    -> (03430,'Farah Sita','Perempuan','Makasar','1997-10-01',2,1,'Jl Sukatani Kota Depok'),
+    -> (06743,'Azura Mayza','Perempuan','Jakarta','1996-06-17',2,2,'Jl Sukamakmur Bogor'),
+    -> (04321,'Muhammad Raul','Laki-Laki','Yogyakarta','1995-03-18',2,3,'Jl Tole Iskandar Depok'),
+    -> (03367,'Azzam Faqih','Laki-Laki','Depok','2000-05-17',2,4,'Jl Siliwangi Kota Depok'),
+    -> (07650,'Amanda Rawless','Perempuan','Jakarta','1999-03-21',2,4,'Jl Perjuangan Jakarta Barat'),
+    -> (02219,'Brayn Domaini','Laki-Laki','Semarang','1997-07-25',1,2,'Jl Pangkal Raya Jakarta Timur'),
+    -> (00283,'Ghifari Zayn','Laki-Laki','Depok','1998-03-10',1,3,'Jl Raya Bogor Depok'),
+    -> (09540,'Zira Putri','Perempuan','Bogor','1999-09-15',1,4,'Jl Kemenangan Kota Bogor'),
+    -> (00549,'Misyel Riza','Perempuan','Jakarta','1997-04-20',1,1,'Jl Blimbing IV Kota Depok'),
+    -> (07543,'Aqila Citra','Perempuan','Jakarta','1999-08-18',1,4,'Jl Juanda Jakarta');
+Query OK, 20 rows affected (0.002 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+Jawaban no. 15 Menampilkan seluruh data pegawai
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------------------------+
+| id | nip  | nama              | gender    | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                                           |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------------------------+
+| 21 | 2693 | Alvita Lestari    | Perempuan | Jakarta    | 1997-05-15 |        3 |         4 | Jl Revolusi Kel Sukamaju Kec Cilodong Kota Depok |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan                    |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok                      |
+| 24 | 3289 | Sinta Marsya      | Perempuan | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok                          |
+| 25 | 245  | Raisya Sungkar    | Perempuan | Depok      | 1997-05-06 |        3 |         4 | Jl Akses UI Kota Depok                           |
+| 26 | 9476 | Akbar Khan        | Laki-Laki | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor                           |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok                             |
+| 28 | 2187 | Larisa Ayu        | Perempuan | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan                   |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan                     |
+| 30 | 756  | Muhammad Iqbaal   | Laki-Laki | Bandung    | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat                   |
+| 31 | 3430 | Farah Sita        | Perempuan | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok                           |
+| 32 | 6743 | Azura Mayza       | Perempuan | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor                              |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok                           |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok                          |
+| 35 | 7650 | Amanda Rawless    | Perempuan | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat                      |
+| 36 | 2219 | Brayn Domaini     | Laki-Laki | Semarang   | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur                    |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok                              |
+| 38 | 9540 | Zira Putri        | Perempuan | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor                         |
+| 39 | 549  | Misyel Riza       | Perempuan | Jakarta    | 1997-04-20 |        1 |         1 | Jl Blimbing IV Kota Depok                        |
+| 40 | 7543 | Aqila Citra       | Perempuan | Jakarta    | 1999-08-18 |        1 |         4 | Jl Juanda Jakarta                                |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------------------------+
+20 rows in set (0.000 sec)
+
+Jawaban no. 16 Ubah data 5 orang pegawai (dengan ketentuan ubah 3 kolom(bebas))
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama='Dena Haura',gender='Perempuan',tmp_lahir='Jakarta' WHERE id=36;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama='Muhammad Yusuf',gender='Laki-Laki',alamat='Jl Surya Kencana Bogor' WHERE id=40;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nip=08458,nama='Fadia Kirana',tgl_lahir='2000-09-02' WHERE id=25;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nip=09654,nama='Antares Robert',tmp_lahir='Kalimantan' WHERE id=30;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> nama='Maura Nazma',tgl_lahir='2000-05-03',alamat='Jl Krakatau VI Jakarta' WHERE id=21;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+
+| id | nip  | nama              | gender    | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+
+| 21 | 2693 | Maura Nazma       | Perempuan | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |
+| 24 | 3289 | Sinta Marsya      | Perempuan | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |
+| 25 | 8458 | Fadia Kirana      | Perempuan | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |
+| 26 | 9476 | Akbar Khan        | Laki-Laki | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |
+| 28 | 2187 | Larisa Ayu        | Perempuan | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |
+| 30 | 9654 | Antares Robert    | Laki-Laki | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |
+| 31 | 3430 | Farah Sita        | Perempuan | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |
+| 32 | 6743 | Azura Mayza       | Perempuan | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |
+| 35 | 7650 | Amanda Rawless    | Perempuan | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |
+| 36 | 2219 | Dena Haura        | Perempuan | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |
+| 38 | 9540 | Zira Putri        | Perempuan | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |
+| 39 | 549  | Misyel Riza       | Perempuan | Jakarta    | 1997-04-20 |        1 |         1 | Jl Blimbing IV Kota Depok      |
+| 40 | 7543 | Muhammad Yusuf    | Laki-Laki | Jakarta    | 1999-08-18 |        1 |         4 | Jl Surya Kencana Bogor         |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+
+
+Jawaban no. 17 Menghapus 2 orang pegawai pegawai terakhir
+MariaDB [dbpegawai]> DELETE FROM pegawai WHERE id=40;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [dbpegawai]> DELETE FROM pegawai WHERE id=39;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+
+| id | nip  | nama              | gender    | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+
+| 21 | 2693 | Maura Nazma       | Perempuan | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |
+| 24 | 3289 | Sinta Marsya      | Perempuan | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |
+| 25 | 8458 | Fadia Kirana      | Perempuan | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |
+| 26 | 9476 | Akbar Khan        | Laki-Laki | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |
+| 28 | 2187 | Larisa Ayu        | Perempuan | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |
+| 30 | 9654 | Antares Robert    | Laki-Laki | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |
+| 31 | 3430 | Farah Sita        | Perempuan | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |
+| 32 | 6743 | Azura Mayza       | Perempuan | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |
+| 35 | 7650 | Amanda Rawless    | Perempuan | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |
+| 36 | 2219 | Dena Haura        | Perempuan | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |
+| 38 | 9540 | Zira Putri        | Perempuan | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+
+18 rows in set (0.000 sec)
+
+Jawaban no. 18 Menggunakan alter tabel pada tabel pegawai untuk menambahkan kolom baru berat_badan dengan 
+tipe data float wajib diisi, lalu input berat badan semua pegawai secara acak
+
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD berat_badan float not null;
+Query OK, 0 rows affected (0.006 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> DESC pegawai;
++-------------+-------------------------------+------+-----+---------+----------------+
+| Field       | Type                          | Null | Key | Default | Extra          |
++-------------+-------------------------------+------+-----+---------+----------------+
+| id          | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip         | char(5)                       | NO   | UNI | NULL    |                |
+| nama        | varchar(30)                   | NO   |     | NULL    |                |
+| gender      | enum('Laki-Laki','Perempuan') | NO   |     | NULL    |                |
+| tmp_lahir   | varchar(30)                   | NO   |     | NULL    |                |
+| tgl_lahir   | date                          | NO   |     | NULL    |                |
+| iddivisi    | int(11)                       | NO   |     | NULL    |                |
+| idjabatan   | int(11)                       | NO   |     | NULL    |                |
+| alamat      | text                          | YES  |     | NULL    |                |
+| berat_badan | float                         | NO   |     | NULL    |                |
++-------------+-------------------------------+------+-----+---------+----------------+
+10 rows in set (0.017 sec)
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> berat_badan=45 + (RAND() * (70-45));
+Query OK, 18 rows affected (0.002 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+-------------+
+| id | nip  | nama              | gender    | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+-------------+
+| 21 | 2693 | Maura Nazma       | Perempuan | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |
+| 24 | 3289 | Sinta Marsya      | Perempuan | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |
+| 25 | 8458 | Fadia Kirana      | Perempuan | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |
+| 28 | 2187 | Larisa Ayu        | Perempuan | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |
+| 30 | 9654 | Antares Robert    | Laki-Laki | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |
+| 31 | 3430 | Farah Sita        | Perempuan | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |
+| 32 | 6743 | Azura Mayza       | Perempuan | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |
+| 35 | 7650 | Amanda Rawless    | Perempuan | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |
+| 36 | 2219 | Dena Haura        | Perempuan | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |
+| 38 | 9540 | Zira Putri        | Perempuan | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+-------------+
+18 rows in set (0.000 sec)
+
+
+Jawaban no. 19 Menggunakan alter tabel pada tabel pegawai untuk menambahkan kolom baru umur dengan tipe data 
+integer wajib diisi, lalu input umur semua pegawai secara acak
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> ADD umur int not null;
+Query OK, 0 rows affected (0.005 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> DESC pegawai;
++---------------+-------------+------+-----+---------+----------------+
+| Field         | Type        | Null | Key | Default | Extra          |
++---------------+-------------+------+-----+---------+----------------+
+| id            | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nip           | char(5)     | NO   | UNI | NULL    |                |
+| nama          | varchar(30) | NO   |     | NULL    |                |
+| jenis_kelamin | varchar(50) | YES  |     | NULL    |                |
+| tmp_lahir     | varchar(30) | NO   |     | NULL    |                |
+| tgl_lahir     | date        | NO   |     | NULL    |                |
+| iddivisi      | int(11)     | NO   |     | NULL    |                |
+| idjabatan     | int(11)     | NO   |     | NULL    |                |
+| alamat        | text        | YES  |     | NULL    |                |
+| berat_badan   | float       | NO   |     | NULL    |                |
+| umur          | int(11)     | NO   |     | NULL    |                |
++---------------+-------------+------+-----+---------+----------------+
+11 rows in set (0.016 sec)
+
+MariaDB [dbpegawai]> UPDATE pegawai SET
+    -> umur = FLOOR(20 + (RAND() * (31 - 20)));
+Query OK, 18 rows affected (0.002 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | gender    | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 21 | 2693 | Maura Nazma       | Perempuan | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 24 | 3289 | Sinta Marsya      | Perempuan | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
+| 25 | 8458 | Fadia Kirana      | Perempuan | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 28 | 2187 | Larisa Ayu        | Perempuan | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 30 | 9654 | Antares Robert    | Laki-Laki | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 31 | 3430 | Farah Sita        | Perempuan | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 32 | 6743 | Azura Mayza       | Perempuan | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 35 | 7650 | Amanda Rawless    | Perempuan | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 36 | 2219 | Dena Haura        | Perempuan | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
+| 38 | 9540 | Zira Putri        | Perempuan | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
++----+------+-------------------+-----------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+18 rows in set (0.000 sec)
+
+Jawaban no. 20 Menggunakan alter tabel pada tabel pegawai untuk mengubah nama kolom gender menjadi 
+jenis_kelamin
+MariaDB [dbpegawai]> ALTER TABLE pegawai
+    -> CHANGE COLUMN gender jenis_kelamin VARCHAR(50);
+Query OK, 18 rows affected (0.044 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 21 | 2693 | Maura Nazma       | Perempuan     | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 24 | 3289 | Sinta Marsya      | Perempuan     | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
+| 25 | 8458 | Fadia Kirana      | Perempuan     | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki     | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki     | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 28 | 2187 | Larisa Ayu        | Perempuan     | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki     | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 30 | 9654 | Antares Robert    | Laki-Laki     | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 31 | 3430 | Farah Sita        | Perempuan     | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 32 | 6743 | Azura Mayza       | Perempuan     | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki     | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 35 | 7650 | Amanda Rawless    | Perempuan     | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 36 | 2219 | Dena Haura        | Perempuan     | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki     | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
+| 38 | 9540 | Zira Putri        | Perempuan     | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+Jawaban no. 21 Menampilkan kolom2 tertentu di tabel pegawai (nip,nama,jenis_kelamin,alamat) 
+MariaDB [dbpegawai]> SELECT nip,nama,jenis_kelamin,alamat FROM pegawai;
++------+-------------------+---------------+--------------------------------+
+| nip  | nama              | jenis_kelamin | alamat                         |
++------+-------------------+---------------+--------------------------------+
+| 2693 | Maura Nazma       | Perempuan     | Jl Krakatau VI Jakarta         |
+| 7698 | Muhammad Zayn     | Laki-Laki     | Jl Danau Raya Jakarta Selatan  |
+| 1459 | Muhammad Jihad    | Laki-Laki     | Jl Margonda Raya Kota Depok    |
+| 3289 | Sinta Marsya      | Perempuan     | Vila Pertiwi Kota Depok        |
+| 8458 | Fadia Kirana      | Perempuan     | Jl Akses UI Kota Depok         |
+| 9476 | Akbar Khan        | Laki-Laki     | Jl Tegar Beriman Bogor         |
+| 8645 | Rafi Sanjaya      | Laki-Laki     | Jl Mangga Kota Depok           |
+| 2187 | Larisa Ayu        | Perempuan     | Jl Kemang Raya Jakarta Selatan |
+| 2286 | Abidzar Alghifari | Laki-Laki     | Pondok Indah Jakarta Selatan   |
+| 9654 | Antares Robert    | Laki-Laki     | Jl Medan Merdeka Jakarta Pusat |
+| 3430 | Farah Sita        | Perempuan     | Jl Sukatani Kota Depok         |
+| 6743 | Azura Mayza       | Perempuan     | Jl Sukamakmur Bogor            |
+| 4321 | Muhammad Raul     | Laki-Laki     | Jl Tole Iskandar Depok         |
+| 3367 | Azzam Faqih       | Laki-Laki     | Jl Siliwangi Kota Depok        |
+| 7650 | Amanda Rawless    | Perempuan     | Jl Perjuangan Jakarta Barat    |
+| 2219 | Dena Haura        | Perempuan     | Jl Pangkal Raya Jakarta Timur  |
+| 283  | Ghifari Zayn      | Laki-Laki     | Jl Raya Bogor Depok            |
+| 9540 | Zira Putri        | Perempuan     | Jl Kemenangan Kota Bogor       |
++------+-------------------+---------------+--------------------------------+
+18 rows in set (0.001 sec)
+
+Jawaban no. 22 Menampilkan baris2 tertentu di tabel pegawai (yang gendernya laki2 saja) 
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE jenis_kelamin='Laki-Laki';
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki     | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki     | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki     | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 30 | 9654 | Antares Robert    | Laki-Laki     | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki     | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki     | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+9 rows in set (0.001 sec)
+
+Jawaban no. 23 Menampilkan baris2 tertentu di tabel pegawai (yang bekerja di divisi IT dan gendernya perempuan) 
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE jenis_kelamin='Perempuan' AND iddivisi=4;
++----+------+------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama       | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+| 28 | 2187 | Larisa Ayu | Perempuan     | Surabaya  | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
++----+------+------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+1 row in set (0.001 sec)
+
+Jawaban no. 24 Menampilkan  data pegawai yang umurnya di atas 30 tahun dan lahirnya di kota jakarta dengan 
+klausa WHERE, AND
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE umur >30 AND tmp_lahir='Jakarta';
+Empty set (0.000 sec)
+
+Jawaban no. 25 Menampilkan data pegawai yang bekerja pada divisi marketing, berumur lebih dari 30 tahun dan 
+berjenis kelamin perempuan dengan klausa WHERE, AND
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE iddivisi=3 AND umur>30 AND jenis_kelamin='Perempuan';
+Empty set (0.000 sec)
+
+Jawaban no. 26 Menampilkan data pegawai dengan klausa key (nip)
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nip='9476';
++----+------+------------+---------------+-----------+------------+----------+-----------+------------------------+-------------+------+
+| id | nip  | nama       | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                 | berat_badan | umur |
++----+------+------------+---------------+-----------+------------+----------+-----------+------------------------+-------------+------+
+| 26 | 9476 | Akbar Khan | Laki-Laki     | Jakarta   | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor |     53.0611 |   29 |
++----+------+------------+---------------+-----------+------------+----------+-----------+------------------------+-------------+------+
+1 row in set (0.000 sec)
+
+Jawaban no. 27 Menampilkan data pegawai dengan klausa non key (gender)
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE jenis_kelamin='Perempuan';
++----+------+----------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama           | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+----------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+| 21 | 2693 | Maura Nazma    | Perempuan     | Jakarta   | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 24 | 3289 | Sinta Marsya   | Perempuan     | Jakarta   | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
+| 25 | 8458 | Fadia Kirana   | Perempuan     | Depok     | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 28 | 2187 | Larisa Ayu     | Perempuan     | Surabaya  | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 31 | 3430 | Farah Sita     | Perempuan     | Makasar   | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 32 | 6743 | Azura Mayza    | Perempuan     | Jakarta   | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 35 | 7650 | Amanda Rawless | Perempuan     | Jakarta   | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 36 | 2219 | Dena Haura     | Perempuan     | Jakarta   | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 38 | 9540 | Zira Putri     | Perempuan     | Bogor     | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
++----+------+----------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+9 rows in set (0.001 sec)
+
+Jawaban no. 28 Menampilkan data pegawai dengan klausa in (menyebutkan beberapa nip) 
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nip IN (2219,7698,1459,2187);
++----+------+----------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama           | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+----------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+| 22 | 7698 | Muhammad Zayn  | Laki-Laki     | Bandung   | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad | Laki-Laki     | Bogor     | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 28 | 2187 | Larisa Ayu     | Perempuan     | Surabaya  | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 36 | 2219 | Dena Haura     | Perempuan     | Jakarta   | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
++----+------+----------------+---------------+-----------+------------+----------+-----------+--------------------------------+-------------+------+
+4 rows in set (0.000 sec)
+
+Jawaban no. 29 menapilkan data pegawai dengan klausa not in (menyebutkan beberapa tempat lahir) 
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE jenis_kelamin NOT IN ('Jakarta','Depok','Bandung','Surabaya');
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 21 | 2693 | Maura Nazma       | Perempuan     | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 24 | 3289 | Sinta Marsya      | Perempuan     | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
+| 25 | 8458 | Fadia Kirana      | Perempuan     | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki     | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki     | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 28 | 2187 | Larisa Ayu        | Perempuan     | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki     | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 30 | 9654 | Antares Robert    | Laki-Laki     | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 31 | 3430 | Farah Sita        | Perempuan     | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 32 | 6743 | Azura Mayza       | Perempuan     | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki     | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 35 | 7650 | Amanda Rawless    | Perempuan     | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 36 | 2219 | Dena Haura        | Perempuan     | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki     | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
+| 38 | 9540 | Zira Putri        | Perempuan     | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+Jawaban no. 30 Menampilkan data pegawai berdasarkan nama secara ascending
+MariaDB [dbpegawai]> SELECT * FROM pegawai ORDER BY nama;
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki     | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki     | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 35 | 7650 | Amanda Rawless    | Perempuan     | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 30 | 9654 | Antares Robert    | Laki-Laki     | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 32 | 6743 | Azura Mayza       | Perempuan     | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki     | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 36 | 2219 | Dena Haura        | Perempuan     | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 25 | 8458 | Fadia Kirana      | Perempuan     | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 31 | 3430 | Farah Sita        | Perempuan     | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki     | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
+| 28 | 2187 | Larisa Ayu        | Perempuan     | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 21 | 2693 | Maura Nazma       | Perempuan     | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki     | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 24 | 3289 | Sinta Marsya      | Perempuan     | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
+| 38 | 9540 | Zira Putri        | Perempuan     | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+18 rows in set (0.000 sec)
+
+Jawaban no. 31 Menampilkan data pegawai dari yang berat badan paling gemuk ke paling kurus
+MariaDB [dbpegawai]> SELECT * FROM pegawai ORDER BY berat_badan DESC;
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 34 | 3367 | Azzam Faqih       | Laki-Laki     | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 32 | 6743 | Azura Mayza       | Perempuan     | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki     | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 28 | 2187 | Larisa Ayu        | Perempuan     | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 35 | 7650 | Amanda Rawless    | Perempuan     | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki     | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 31 | 3430 | Farah Sita        | Perempuan     | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki     | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
+| 30 | 9654 | Antares Robert    | Laki-Laki     | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 21 | 2693 | Maura Nazma       | Perempuan     | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 36 | 2219 | Dena Haura        | Perempuan     | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki     | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 25 | 8458 | Fadia Kirana      | Perempuan     | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 38 | 9540 | Zira Putri        | Perempuan     | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
+| 24 | 3289 | Sinta Marsya      | Perempuan     | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+18 rows in set (0.000 sec)
+
+Jawaban no. 32 Menampilkan data 5 pegawai teratas gunakan klausa limit
+MariaDB [dbpegawai]> SELECT * FROM pegawai LIMIT 5;
++----+------+----------------+---------------+-----------+------------+----------+-----------+-------------------------------+-------------+------+
+| id | nip  | nama           | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                        | berat_badan | umur |
++----+------+----------------+---------------+-----------+------------+----------+-----------+-------------------------------+-------------+------+
+| 21 | 2693 | Maura Nazma    | Perempuan     | Jakarta   | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta        |     59.7996 |   24 |
+| 22 | 7698 | Muhammad Zayn  | Laki-Laki     | Bandung   | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad | Laki-Laki     | Bogor     | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok   |     52.3854 |   20 |
+| 24 | 3289 | Sinta Marsya   | Perempuan     | Jakarta   | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok       |     45.8565 |   23 |
+| 25 | 8458 | Fadia Kirana   | Perempuan     | Depok     | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok        |     52.1261 |   26 |
++----+------+----------------+---------------+-----------+------------+----------+-----------+-------------------------------+-------------+------+
+5 rows in set (0.001 sec)
+
+Jawaban no. 33 Menampilkan data 5 pegawai terbawah gunakan klausa limit offset
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| id | nip  | nama              | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                         | berat_badan | umur |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+| 21 | 2693 | Maura Nazma       | Perempuan     | Jakarta    | 2000-05-03 |        3 |         4 | Jl Krakatau VI Jakarta         |     59.7996 |   24 |
+| 22 | 7698 | Muhammad Zayn     | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan  |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad    | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok    |     52.3854 |   20 |
+| 24 | 3289 | Sinta Marsya      | Perempuan     | Jakarta    | 1999-02-20 |        3 |         3 | Vila Pertiwi Kota Depok        |     45.8565 |   23 |
+| 25 | 8458 | Fadia Kirana      | Perempuan     | Depok      | 2000-09-02 |        3 |         4 | Jl Akses UI Kota Depok         |     52.1261 |   26 |
+| 26 | 9476 | Akbar Khan        | Laki-Laki     | Jakarta    | 2000-10-10 |        4 |         2 | Jl Tegar Beriman Bogor         |     53.0611 |   29 |
+| 27 | 8645 | Rafi Sanjaya      | Laki-Laki     | Jakarta    | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok           |      63.927 |   24 |
+| 28 | 2187 | Larisa Ayu        | Perempuan     | Surabaya   | 1999-01-12 |        4 |         1 | Jl Kemang Raya Jakarta Selatan |     65.4518 |   25 |
+| 29 | 2286 | Abidzar Alghifari | Laki-Laki     | Jakarta    | 1999-04-10 |        4 |         2 | Pondok Indah Jakarta Selatan   |     65.4782 |   23 |
+| 30 | 9654 | Antares Robert    | Laki-Laki     | Kalimantan | 1998-03-09 |        4 |         3 | Jl Medan Merdeka Jakarta Pusat |     61.0353 |   30 |
+| 31 | 3430 | Farah Sita        | Perempuan     | Makasar    | 1997-10-01 |        2 |         1 | Jl Sukatani Kota Depok         |      63.742 |   20 |
+| 32 | 6743 | Azura Mayza       | Perempuan     | Jakarta    | 1996-06-17 |        2 |         2 | Jl Sukamakmur Bogor            |     65.6041 |   23 |
+| 33 | 4321 | Muhammad Raul     | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok         |     66.7944 |   25 |
+| 34 | 3367 | Azzam Faqih       | Laki-Laki     | Depok      | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok        |     67.1597 |   25 |
+| 35 | 7650 | Amanda Rawless    | Perempuan     | Jakarta    | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat    |     65.4152 |   30 |
+| 36 | 2219 | Dena Haura        | Perempuan     | Jakarta    | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur  |      55.597 |   24 |
+| 37 | 283  | Ghifari Zayn      | Laki-Laki     | Depok      | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok            |     61.7392 |   30 |
+| 38 | 9540 | Zira Putri        | Perempuan     | Bogor      | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor       |     46.9053 |   25 |
++----+------+-------------------+---------------+------------+------------+----------+-----------+--------------------------------+-------------+------+
+18 rows in set (0.001 sec)
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai LIMIT 5 OFFSET 13;
++----+------+----------------+---------------+-----------+------------+----------+-----------+-------------------------------+-------------+------+
+| id | nip  | nama           | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat                        | berat_badan | umur |
++----+------+----------------+---------------+-----------+------------+----------+-----------+-------------------------------+-------------+------+
+| 34 | 3367 | Azzam Faqih    | Laki-Laki     | Depok     | 2000-05-17 |        2 |         4 | Jl Siliwangi Kota Depok       |     67.1597 |   25 |
+| 35 | 7650 | Amanda Rawless | Perempuan     | Jakarta   | 1999-03-21 |        2 |         4 | Jl Perjuangan Jakarta Barat   |     65.4152 |   30 |
+| 36 | 2219 | Dena Haura     | Perempuan     | Jakarta   | 1997-07-25 |        1 |         2 | Jl Pangkal Raya Jakarta Timur |      55.597 |   24 |
+| 37 | 283  | Ghifari Zayn   | Laki-Laki     | Depok     | 1998-03-10 |        1 |         3 | Jl Raya Bogor Depok           |     61.7392 |   30 |
+| 38 | 9540 | Zira Putri     | Perempuan     | Bogor     | 1999-09-15 |        1 |         4 | Jl Kemenangan Kota Bogor      |     46.9053 |   25 |
++----+------+----------------+---------------+-----------+------------+----------+-----------+-------------------------------+-------------+------+
+5 rows in set (0.000 sec)
+
+Jawaban no. 34 Menampilkan jumlah pegawai gunakan fungsi aggregrat count
+
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai;
++----------------+
+| jumlah_pegawai |
++----------------+
+|             18 |
++----------------+
+1 row in set (0.000 sec)
+
+Jawaban no. 35 Menampilkan nip,nama pegawai, umur yg paling tua gunakan fungsi aggregrat max (kombinasi 
+dengan sub query) 
+MariaDB [dbpegawai]> SELECT nip,nama,umur FROM  pegawai WHERE umur=(SELECT MAX(umur) FROM pegawai);
++------+----------------+------+
+| nip  | nama           | umur |
++------+----------------+------+
+| 9654 | Antares Robert |   30 |
+| 7650 | Amanda Rawless |   30 |
+| 283  | Ghifari Zayn   |   30 |
++------+----------------+------+
+3 rows in set (0.001 sec)
+
+Jawaban no. 36 Menampilkan nip,nama pegawai, berat_badan yg paling kurus gunakan fungsi aggregrat min 
+(kombinasi dengan sub query) 
+MariaDB [dbpegawai]> SELECT nip,nama,berat_badan FROM pegawai WHERE berat_badan=(SELECT MIN(berat_badan) FROM pegawai);
++------+--------------+-------------+
+| nip  | nama         | berat_badan |
++------+--------------+-------------+
+| 3289 | Sinta Marsya |     45.8565 |
++------+--------------+-------------+
+1 row in set (0.000 sec)
+
+Jawaban no. 37 Menampilkan data rata2 umur pegawai gunakan fungsi aggregrat avg 
+MariaDB [dbpegawai]> SELECT AVG(umur) AS umur_rata2 FROM pegawai;
++------------+
+| umur_rata2 |
++------------+
+|    25.1111 |
++------------+
+1 row in set (0.000 sec)
+
+Jawaban no. 38 Menampilkan jumlah data pegawai yang laki2 dan berumur lebih dari 40 tahun dan berjabatan 
+Manajer, gunakan fungsi aggregrat count dan klausa AND
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai WHERE jenis_kelamin='Laki-Laki' AND umur >40 AND idjabatan=2;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              0 |
++----------------+
+1 row in set (0.001 sec)
+
+Jawaban no. 39 Menampilkan jumlah data pegawai yang perempuan dan berumur kurang dari 40 tahun dan 
+berjabatan Staff, gunakan fungsi aggregrat count dan klausa AND
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai WHERE jenis_kelamin='Perempuan' AND umur <40 AND idjabatan=4;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              4 |
++----------------+
+1 row in set (0.000 sec)
+
+Jawaban no. 40 Menampilkan jumlah data pegawai yang perempuan gunakan fungsi aggregrat count
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai WHERE jenis_kelamin='Perempuan';
++----------------+
+| jumlah_pegawai |
++----------------+
+|              9 |
++----------------+
+1 row in set (0.000 sec)
+
+Jawaban no. 41 Menampilkan jumlah pegawai yang bekerja di divisi SDM dengan fungsi aggregrat sum dan klausa 
+WHERE
+MariaDB [dbpegawai]> SELECT SUM(iddivisi) AS divisi_sdm FROM pegawai WHERE iddivisi=1;
++------------+
+| divisi_sdm |
++------------+
+|          3 |
++------------+
+1 row in set (0.000 sec)
+
+Jawaban no. 42 Menampilkan jumlah pegawai berdasarkan divisi masing2 menggunakan fungsi aggregrat count 
+dan klausa group by
+MariaDB [dbpegawai]> SELECT iddivisi, COUNT(iddivisi) AS jumlah_pegawai FROM pegawai GROUP BY iddivisi;
++----------+----------------+
+| iddivisi | jumlah_pegawai |
++----------+----------------+
+|        1 |              3 |
+|        2 |              5 |
+|        3 |              5 |
+|        4 |              5 |
++----------+----------------+
+4 rows in set (0.001 sec)
+
+Jawaban no. 43 Menampilkan data jumlah pegawai berdasarkan gender, yg jumlah minimal 10 orang (gunakan 
+group by dan having)
+
+MariaDB [dbpegawai]> SELECT jenis_kelamin, COUNT(jenis_kelamin) AS jumlah_pegawai FROM pegawai GROUP BY jenis_kelamin HAVING COUNT(jenis_kelamin)>=10;
+Empty set (0.000 sec)
+
+Jawaban no. 44 Mencari data pegawai yang berawalan kata Muhammad
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nama LIKE 'Muhammad%';
++----+------+----------------+---------------+------------+------------+----------+-----------+-------------------------------+-------------+------+
+| id | nip  | nama           | jenis_kelamin | tmp_lahir  | tgl_lahir  | iddivisi | idjabatan | alamat                        | berat_badan | umur |
++----+------+----------------+---------------+------------+------------+----------+-----------+-------------------------------+-------------+------+
+| 22 | 7698 | Muhammad Zayn  | Laki-Laki     | Bandung    | 1997-12-01 |        3 |         2 | Jl Danau Raya Jakarta Selatan |     65.3569 |   26 |
+| 23 | 1459 | Muhammad Jihad | Laki-Laki     | Bogor      | 2000-09-12 |        3 |         1 | Jl Margonda Raya Kota Depok   |     52.3854 |   20 |
+| 33 | 4321 | Muhammad Raul  | Laki-Laki     | Yogyakarta | 1995-03-18 |        2 |         3 | Jl Tole Iskandar Depok        |     66.7944 |   25 |
++----+------+----------------+---------------+------------+------------+----------+-----------+-------------------------------+-------------+------+
+3 rows in set (0.001 sec)
+
+Jawaban no. 45 Mencari  data pegawai yang berakhiran kata Santoso
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nama LIKE '%Santoso';
+Empty set (0.000 sec)
+
+Jawaban no. 46 Mencari data pegawai yang mengadung kata Asep
+MariaDB [dbpegawai]>
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nama LIKE '%Asep%';
+Empty set (0.000 sec)
+
+Jawaban no. 47 Mencari data pegawai yang huruf kelimanya huruf S 
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nama LIKE '_____s%';
++----+------+--------------+---------------+-----------+------------+----------+-----------+----------------------+-------------+------+
+| id | nip  | nama         | jenis_kelamin | tmp_lahir | tgl_lahir  | iddivisi | idjabatan | alamat               | berat_badan | umur |
++----+------+--------------+---------------+-----------+------------+----------+-----------+----------------------+-------------+------+
+| 27 | 8645 | Rafi Sanjaya | Laki-Laki     | Jakarta   | 1998-04-20 |        4 |         4 | Jl Mangga Kota Depok |      63.927 |   24 |
++----+------+--------------+---------------+-----------+------------+----------+-----------+----------------------+-------------+------+
+1 row in set (0.001 sec)
+
+
+
